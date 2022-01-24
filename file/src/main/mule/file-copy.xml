@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="file-copyFlow" doc:id="df32fac1-baac-4fce-82be-dfcb79304e74" >
+		<http:listener doc:name="Listener" doc:id="5d7846eb-a2cb-47ef-bd91-d0fae69f3ce5" config-ref="HTTP_Listener_config" path="/copy"/>
+		<logger level="INFO" doc:name="Logger" doc:id="d3a92421-8b31-4e44-b6a6-85e0c619390b" message="request recieved for data copy"/>
+		<file:copy doc:name="Copy" doc:id="a1945674-95ce-4e15-8b62-6e057c92876e" config-ref="File_Config" sourcePath="C:\Users\pardh\Desktop\File" targetPath="D:\File System" renameTo="emp.csv" overwrite="true"/>
+		<ee:transform doc:name="Transform Message" doc:id="1e934096-4037-4e81-b3b9-834d84c18e90" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "data copied successfully"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

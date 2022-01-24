@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd">
+	<flow name="file-readFlow" doc:id="a451fdcf-9bc3-4adc-bbcb-3341766a80d1" >
+		<http:listener doc:name="Listener" doc:id="09253738-05ae-428c-8a82-c3f4cadda713" config-ref="HTTP_Listener_config" path="/read"/>
+		<logger level="INFO" doc:name="Logger" doc:id="096e21a9-e7fb-4d01-add2-718a644ac4be" message="request recieved to read csv file"/>
+		<file:read doc:name="Read" doc:id="07725255-ce6e-441f-bc7f-e2f346d89a12" config-ref="File_Config" path="C:\Users\pardh\Desktop\file.csv"/>
+		<ee:transform doc:name="Transform Message" doc:id="d92f73cd-c550-4784-9640-812112402a5c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

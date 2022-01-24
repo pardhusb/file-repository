@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="file-deleteFlow" doc:id="5d3b494d-75e9-46a8-87b0-b501858e616b" >
+		<http:listener doc:name="Listener" doc:id="9b508a6b-72d6-49fb-9c46-297fae2478c0" config-ref="HTTP_Listener_config" path="/delete"/>
+		<logger level="INFO" doc:name="Logger" doc:id="07bef617-3ffc-4401-9812-7c25ee1795be" message="request recieved to delete data"/>
+		<file:delete doc:name="Delete" doc:id="f77ff6ff-3092-4541-b5a2-74f5661b614a" path="D:\File System\File"/>
+		<ee:transform doc:name="Transform Message" doc:id="8725778c-69f0-4b05-8586-6feef1849cc9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "file deleted success"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

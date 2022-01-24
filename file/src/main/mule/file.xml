@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="cc4d3af1-83a6-4d83-aa5e-23b2ac860cb1" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="90fede18-2630-457d-8811-0629814fcd03" />
+	<flow name="callVariable" doc:id="b14a7afa-6b02-468a-8d6d-e23cfaa223e1" >
+		<http:listener doc:name="Listener" doc:id="c37d571b-df5b-4e49-aab9-87c6e5075b86" config-ref="HTTP_Listener_config" path="/file"/>
+		<logger level="INFO" doc:name="Logger" doc:id="a0351156-61a5-4e8e-858c-6a157f2097e4" message="#[payload]"/>
+		<file:write doc:name="Write" doc:id="fe751f88-cb57-45f1-bddd-39f0125f95ba" config-ref="File_Config" path="C:\Users\pardh\Desktop\file.csv" mode="APPEND"/>
+		<ee:transform doc:name="Transform Message" doc:id="c97413f6-7887-4ea2-adea-f768fe6fd38f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA["data written into csv file success"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

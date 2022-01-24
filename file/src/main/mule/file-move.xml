@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="file-moveFlow" doc:id="fb218dee-2d04-4dc5-9361-a8427c3aad92" >
+		<http:listener doc:name="Listener" doc:id="e3151c65-46df-42e8-80eb-180843de91e8" config-ref="HTTP_Listener_config" path="/move"/>
+		<logger level="INFO" doc:name="Logger" doc:id="8ffe3dc2-672f-4fe2-a1ca-38a41429ed96" message="request recieved for moving data"/>
+		<file:move doc:name="Move" doc:id="22dca7e8-5f55-4337-855d-d5f095ad7515" config-ref="File_Config" sourcePath="C:\Users\pardh\Desktop\File" targetPath="D:\File System"/>
+		<logger level="INFO" doc:name="Logger" doc:id="ee81c303-2867-4b0c-a812-306cf520e392" message="#[payload]"/>
+		<ee:transform doc:name="Transform Message" doc:id="6f18e7d6-1ed6-447a-bcc7-7884c837e3cb" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "data moved successfully"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<flow name="file-ONnewFlow" doc:id="6c76ca29-4f75-4fed-a0fa-9ba86767b8e8" >
+		<file:listener doc:name="On New or Updated File" doc:id="851092b3-7495-4a5f-87e6-0a81c7e79089" config-ref="File_Config" directory="C:\Users\pardh\Desktop\New folder" moveToDirectory="D:\File System">
+			<scheduling-strategy >
+				<fixed-frequency frequency="1" timeUnit="MINUTES"/>
+			</scheduling-strategy>
+		</file:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="9d289337-c01d-4944-ac12-7b8f9f875a88" message="#[payload]"/>
+	</flow>
+</mule>
